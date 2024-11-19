@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/colorPrimary"
     android:padding="15dp">
 
     <ImageButton
@@ -22,10 +21,10 @@
 
     <EditText
         android:id="@+id/email"
-        style="@style/RedTheme"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Email"
+        android:fontFamily="@font/superior"
         android:inputType="textEmailAddress"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
@@ -38,13 +37,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Password"
+        android:fontFamily="@font/superior"
         android:inputType="textPassword"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        style="@style/RedTheme"/>
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <Button
         android:id="@+id/login"
@@ -52,17 +51,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:fontFamily="@font/superior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
         android:layout_marginTop="10dp"
         android:text="Log In"
-        android:backgroundTint="@color/colorAccent"
-        style="@style/RedTheme"/>
+        />
 
     <TextView
         android:id="@+id/singUpButton"
-        style="@style/RedTheme"
+        android:fontFamily="@font/superior"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New member?"

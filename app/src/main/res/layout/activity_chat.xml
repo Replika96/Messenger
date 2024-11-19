@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/colorPrimary">
+    android:background="@color/white">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messagesRecyclerView"
@@ -33,18 +33,21 @@
 
         <EditText
             android:id="@+id/messageInput"
-            style="@style/RedTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="top"
+            android:padding="12dp"
+            android:textSize="18sp"
             android:layout_marginStart="10dp"
+            android:fontFamily="@font/superior"
+            android:background="@drawable/red_border"
             android:hint="@string/message"
             android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageButton
             android:id="@+id/sendButton"
-            style="@style/RedTheme"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
@@ -58,27 +61,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/lightRed">
 
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/title"
-            style="@style/RedTheme"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="20dp"
+            android:textSize="18sp"
             android:text="UserName"
+            android:textColorHint="@color/white"
             android:gravity="center_vertical"
             android:textColor="@color/black"
              />

@@ -1,6 +1,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/colorAccent"/> <!-- Цвет фона для отправленного сообщения -->
-    <corners android:radius="100dp"/> <!-- Закругление углов -->
+    <solid android:color="@color/lightRed"/> <!-- Цвет фона для отправленного сообщения -->
+    <corners android:radius="50dp"/> <!-- Закругление углов -->
     <padding
         android:left="8dp"
         android:right="8dp"

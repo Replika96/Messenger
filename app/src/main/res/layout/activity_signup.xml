@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/colorPrimary"
     android:gravity="center"
     android:padding="16dp">
 
@@ -33,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userpic"
         android:inputType="text"
-        style="@style/RedTheme"/>
+        android:fontFamily="@font/superior"/>
 
     <EditText
         android:id="@+id/password"
@@ -47,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email"
         android:inputType="text"
-        style="@style/RedTheme"/>
+        android:fontFamily="@font/superior"/>
 
     <EditText
         android:id="@+id/email"
@@ -61,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username"
         android:inputType="text"
-        style="@style/RedTheme"/>
+        android:fontFamily="@font/superior"/>
 
     <Button
         android:id="@+id/register"
@@ -75,12 +74,11 @@
         app:layout_constraintTop_toBottomOf="@+id/password"
         android:layout_marginTop="10dp"
         android:text="Register"
-        android:backgroundTint="@color/colorAccent"
-        style="@style/RedTheme"/>
+        android:fontFamily="@font/superior"/>
 
     <TextView
         android:id="@+id/loginButton"
-        style="@style/RedTheme"
+        android:fontFamily="@font/superior"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Already a member?"

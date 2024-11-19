@@ -12,7 +12,7 @@ class ChatViewModel(private val chatRepository: ChatRepository) : ViewModel() {
 
     fun loadMessages(chatId: String) {
         chatRepository.getMessages(chatId) { messages ->
-            _messages.value = messages
+            _messages.value = messages.sortedBy { it.timestamp }
         }
     }
 

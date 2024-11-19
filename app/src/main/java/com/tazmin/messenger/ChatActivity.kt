@@ -55,7 +55,7 @@ class ChatActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.sendButton).setOnClickListener {
             val messageText = findViewById<EditText>(R.id.messageInput).text.toString().trim()
             if (messageText.isNotEmpty()) {
-                val message = Message(currentUserId, chatUserId, messageText, null)
+                val message = Message(currentUserId, chatUserId, messageText, System.currentTimeMillis())
                 viewModel.sendMessage(getChatId(currentUserId, chatUserId), message)
                 findViewById<EditText>(R.id.messageInput).text.clear()
             } else {

@@ -6,7 +6,7 @@
     <corners android:radius="30dp" />
 
     <!-- Цвет фона -->
-    <solid android:color="@color/colorAccent"/> <!-- Серый цвет (#D3D3D3) -->
+    <solid android:color="@color/lightRed"/> <!-- Серый цвет (#D3D3D3) -->
 
     <!-- Отступы внутри фона (опционально) -->
     <padding
