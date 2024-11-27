@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,9 +71,13 @@ class SignUpActivity : AppCompatActivity() {
                 val userId = authResult.user?.uid
 
                 userId?.let {
+                    // Получаем токен FCM
+                    val token = FirebaseMessaging.getInstance().token.await()
+
                     val user = hashMapOf(
                         "username" to username,
-                        "email" to email
+                        "email" to email,
+                        "token" to token // Добавляем токен в Firestore
                     )
 
                     db.collection("users").document(it).set(user).await()
@@ -90,4 +95,5 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
     }
+
 }

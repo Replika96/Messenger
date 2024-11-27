@@ -4,11 +4,11 @@
     <item
         android:id="@+id/usersFragment"
         android:icon="@drawable/ic_messages"
-        android:title="Messages" />
+        android:title="Сообщения" />
 
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_profile"
-        android:title="Profile" />
+        android:title="Профиль" />
 
 </menu>

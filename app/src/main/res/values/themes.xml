@@ -8,11 +8,23 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/red</item>
         <item name="colorSecondaryVariant">@color/red</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:navigationBarColor">@color/gray</item>
         <!-- Customize your theme here. -->
+        <item name="itemRippleColor">@color/red</item>
+        <!-- Цвет овала (активного индикатора) -->
+        <item name="itemActiveIndicatorStyle">@style/CustomActiveIndicatorStyle</item>
     </style>
-
+    <style name="CustomActiveIndicatorStyle">
+        <!-- Овал вокруг иконки -->
+        <item name="shapeAppearanceOverlay">@style/CustomOvalShape</item>
+        <item name="backgroundTint">@color/gray</item>
+    </style>
+    <style name="CustomOvalShape" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item> <!-- Углы: 50% для овала -->
+    </style>
     <style name="Theme.Messenger" parent="Base.Theme.Messenger" />
 </resources>
