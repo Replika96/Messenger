@@ -18,7 +18,14 @@
         android:minWidth="80dp"
         android:minHeight="48dp">
 
-        <!-- Текст сообщения -->
+        <!-- Иконка для файлов -->
+        <ImageView
+            android:id="@+id/fileImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/messageTextView"
             android:layout_width="wrap_content"
@@ -26,15 +33,7 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:layout_marginBottom="6dp" />
-        <!-- Иконка для файлов -->
-        <ImageView
-            android:id="@+id/fileImageView"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="8dp"
-            android:visibility="gone" />
 
-        <!-- Время и иконка статуса -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,15 +49,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
 
-            <!-- Иконка статуса -->
-            <ImageView
-                android:id="@+id/readStatusIcon"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/ic_unread"
-                android:layout_marginStart="4dp" />
         </LinearLayout>
     </LinearLayout>
-
 
 </LinearLayout>

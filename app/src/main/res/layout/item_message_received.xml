@@ -18,6 +18,12 @@
         android:minWidth="80dp"
         android:minHeight="48dp">
 
+        <ImageView
+            android:id="@+id/fileImageView"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
     <TextView
         android:id="@+id/messageTextView"
         android:layout_width="wrap_content"
@@ -41,12 +47,5 @@
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
-    <ImageView
-        android:id="@+id/fileImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        android:scaleType="centerCrop" />
 </LinearLayout>
 

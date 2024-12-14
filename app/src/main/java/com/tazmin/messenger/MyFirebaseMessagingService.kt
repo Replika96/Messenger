@@ -13,14 +13,12 @@ import com.google.firebase.messaging.RemoteMessage
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        // Вызывается, когда устройство получает сообщение FCM
         remoteMessage.notification?.let {
             showNotification(it.title, it.body)
         }
 
         remoteMessage.data.let {
             Log.d("FCM", "Data payload: $it")
-            // Обрабатывайте дополнительные данные из сообщения, если они есть
         }
     }
 
@@ -28,10 +26,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         Log.d("FCM", "FCM-токен обновлен: $token")
 
-        // Получаем текущего пользователя
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
-            // Обновляем токен в базе данных
             FirebaseFirestore.getInstance().collection("users")
                 .document(userId)
                 .update("token", token)
@@ -45,7 +41,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
 
-    private fun sendTokenToServer(token: String) {
+    /*private fun sendTokenToServer(token: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
             val db = FirebaseFirestore.getInstance()
@@ -60,7 +56,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         } else {
             Log.e("FCM", "Пользователь не авторизован, токен не может быть обновлен")
         }
-    }
+    }*/
 
 
     private fun showNotification(title: String?, body: String?) {
@@ -79,7 +75,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notification = NotificationCompat.Builder(this, channelId)
             .setContentTitle(title ?: "Уведомление")
             .setContentText(body ?: "Новое сообщение")
-            .setSmallIcon(R.drawable.ic_eye) // Замените на ваш иконку
+            .setSmallIcon(R.drawable.ic_eye)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 

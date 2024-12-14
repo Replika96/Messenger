@@ -1,1 +1,9 @@
 /build
+.env
+config/settings.json
+logs/
+tmp/
+*.log
+*.tmp
+secret/*.key
+!important.log

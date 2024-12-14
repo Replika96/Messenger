@@ -71,13 +71,12 @@ class SignUpActivity : AppCompatActivity() {
                 val userId = authResult.user?.uid
 
                 userId?.let {
-                    // Получаем токен FCM
                     val token = FirebaseMessaging.getInstance().token.await()
 
                     val user = hashMapOf(
                         "username" to username,
                         "email" to email,
-                        "token" to token // Добавляем токен в Firestore
+                        "token" to token
                     )
 
                     db.collection("users").document(it).set(user).await()

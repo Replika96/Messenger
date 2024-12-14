@@ -9,34 +9,37 @@
     android:background="@color/white">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/messagesRecyclerView"
+        android:id="@+id/generalChatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
         android:clipToPadding="false"
         android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/actionUp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="4dp"
         android:orientation="horizontal"
-
+        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="65dp">
+
         <ImageButton
             android:id="@+id/attachFileButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_attach_file"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/editText"
-            android:layout_marginLeft="5dp"/>
+            app:layout_constraintStart_toEndOf="@+id/editText" />
+
         <EditText
             android:id="@+id/messageInput"
             android:layout_width="0dp"
@@ -47,10 +50,10 @@
             android:fontFamily="@font/superior"
             android:gravity="top"
             android:hint="@string/message"
-            android:textColor="@color/red"
-            android:textColorHint="@color/red"
             android:inputType="text"
             android:padding="12dp"
+            android:textColor="@color/red"
+            android:textColorHint="@color/red"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -64,42 +67,4 @@
             app:layout_constraintStart_toEndOf="@+id/editText" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/actionUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/gray">
-
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_back" />
-        <ImageView
-            android:id="@+id/user_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_userpic2"
-            android:layout_gravity="center"
-            app:cardCornerRadius="20dp"
-            />
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
-            android:textSize="18sp"
-            android:text="UserName"
-            android:textColorHint="@color/white"
-            android:gravity="center_vertical"
-            android:textColor="@color/red"
-             />
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,31 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="end"
+    android:gravity="start"
     android:padding="8dp">
 
-    <!-- Контейнер для сообщения -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/bg_message_sent"
+        android:background="@drawable/bg_message_received"
         android:padding="10dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
         android:minWidth="80dp"
         android:minHeight="48dp">
-
-        <!-- Текст сообщения -->
-        <TextView
-            android:id="@+id/messageTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:layout_marginBottom="6dp" />
         <!-- Иконка для файлов -->
         <ImageView
             android:id="@+id/fileImageView"
@@ -33,32 +24,36 @@
             android:layout_height="250dp"
             android:layout_marginTop="8dp"
             android:visibility="gone" />
-
-        <!-- Время и иконка статуса -->
+        <TextView
+            android:id="@+id/senderNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/messageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end">
+            android:gravity="end"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp">
 
-            <!-- Время -->
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
-
-            <!-- Иконка статуса -->
-            <ImageView
-                android:id="@+id/readStatusIcon"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/ic_unread"
-                android:layout_marginStart="4dp" />
         </LinearLayout>
     </LinearLayout>
-
 
 </LinearLayout>

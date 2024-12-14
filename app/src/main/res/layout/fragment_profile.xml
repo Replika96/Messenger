@@ -18,7 +18,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <EditText
+        android:id="@+id/editUsernameField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Введите новое имя"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:textColor="@color/red"
+        android:background="@drawable/red_border"
+        android:textColorHint="@color/red"
+        android:inputType="text"
+        android:padding="12dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatarImageView"/>
     <TextView
         android:id="@+id/usernameText"
         android:layout_width="wrap_content"
@@ -27,10 +43,33 @@
         android:text="Username"
         android:textColor="@color/red"
         android:textSize="30sp"
+        android:visibility="visible"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avatarImageView" />
+
+    <Button
+        android:id="@+id/saveUsernameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Сохранить"
+        android:visibility="gone"
+        android:fontFamily="@font/superior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/usernameText"
+        app:layout_constraintTop_toTopOf="@+id/usernameText" />
+    <ImageButton
+        android:id="@+id/editUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_edit"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/usernameText"
+        app:layout_constraintStart_toEndOf="@+id/usernameText"
+        app:layout_constraintTop_toTopOf="@+id/usernameText" />
 
     <Button
         android:id="@+id/logoutButton"
@@ -38,9 +77,9 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/superior"
         android:text="Выйти"
+        android:layout_marginTop="80dp"
         android:textColor="@color/white"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameText" />
+        app:layout_constraintTop_toBottomOf="@+id/avatarImageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

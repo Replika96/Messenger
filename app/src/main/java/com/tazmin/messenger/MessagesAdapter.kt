@@ -55,7 +55,7 @@ class MessageAdapter(private val currentUserId: String) : RecyclerView.Adapter<M
         private val messageTextView: TextView = itemView.findViewById(R.id.messageTextView)
         private val timeTextView: TextView = itemView.findViewById(R.id.time)
         private val fileImageView: ImageView = itemView.findViewById(R.id.fileImageView)
-        private val readStatusIcon: ImageView? = itemView.findViewById(R.id.readStatusIcon) // Новая иконка для статуса
+        private val readStatusIcon: ImageView? = itemView.findViewById(R.id.readStatusIcon)
 
         fun bind(message: Message) {
             messageTextView.text = message.message

@@ -1,16 +1,21 @@
 package com.tazmin.messenger
 
+
+
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.CoroutineScope
-import java.net.HttpURLConnection
-import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import okhttp3.*
+import org.json.JSONObject
+
 
 
 class ChatRepository {
@@ -63,60 +68,74 @@ class ChatRepository {
             .await()
     }
 
-    /*private suspend fun sendNotificationToRecipient(receiverId: String, message: Message) {
-        try {
-            val document = db.collection("users").document(receiverId).get().await() // Добавляем .await() для асинхронного вызова
-            val token = document.getString("token")
-
-            if (!token.isNullOrEmpty()) {
-                val notificationTitle = "Новое сообщение от ${message.senderId}"
-                val notificationBody = message.message ?: "У вас новое сообщение"
-                sendPushNotification(token, notificationTitle, notificationBody) // Вызываем suspend функцию в асинхронном контексте
-            } else {
-                Log.e("ChatRepository", "Токен не найден для пользователя $receiverId")
+    fun getGeneralChatMessages(onMessagesLoaded: (List<GeneralMessage>) -> Unit) {
+        db.collection("generalChat")
+            .orderBy("timestamp", Query.Direction.ASCENDING)
+            .addSnapshotListener { querySnapshot, _ ->
+                querySnapshot?.let {
+                    val messages = it.documents.mapNotNull { doc -> doc.toObject(GeneralMessage::class.java) }
+                    onMessagesLoaded(messages)
+                }
             }
-        } catch (e: Exception) {
-            Log.e("ChatRepository", "Ошибка получения токена: ${e.message}")
+    }
+
+    fun sendGeneralChatMessage(
+        message: GeneralMessage,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.d("SendGeneralMessage", "Отправка сообщения: $message")
+                db.collection("generalChat")
+                    .add(message)
+                    .await()
+
+                withContext(Dispatchers.Main) {
+                    Log.d("SendGeneralMessage", "Сообщение успешно отправлено")
+                    onSuccess()
+                }
+            } catch (e: Exception) {
+                Log.e("SendGeneralMessage", "Ошибка при отправке сообщения: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    onFailure(e)
+                }
+            }
         }
     }
 
+    private val client = OkHttpClient()
 
+    suspend fun uploadImageToImgur(imageUri: Uri, context: Context): String? {
+        return try {
+            val bitmap = ImageUtils.getBitmapFromUri(context, imageUri)?.let {
+                ImageUtils.resizeBitmap(it, 1024, 1024)
+            } ?: return null
 
-    private suspend fun sendPushNotification(token: String, title: String, body: String) {
-        val jsonPayload = """
-        {
-            "to": "$token",
-            "notification": {
-                "title": "$title",
-                "body": "$body"
+            val encodedImage = ImageUtils.encodeImageToBase64(bitmap)
+
+            val requestBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", encodedImage)
+                .build()
+
+            val request = Request.Builder()
+                .url("https://api.imgur.com/3/image")
+                .addHeader("Authorization", "Client-ID BuildConfig.API_KEY}")
+                .post(requestBody)
+                .build()
+
+            val response = withContext(Dispatchers.IO) { client.newCall(request).execute() }
+            if (response.isSuccessful) {
+                val responseBody = response.body?.string()
+                JSONObject(responseBody!!).getJSONObject("data").getString("link")
+            } else {
+                null
             }
+        } catch (e: Exception) {
+            Log.e("Imgur", "Ошибка загрузки изображения: ${e.message}")
+            null
         }
-    """.trimIndent()
-
-
-        withContext(Dispatchers.IO) {
-            try {
-                val url = URL("https://fcm.googleapis.com/fcm/send")
-                val connection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "POST"
-                connection.setRequestProperty("Content-Type", "application/json")
-                connection.setRequestProperty("Authorization", "key=BEXBAAx0ZJvxs2Zd1HzMe5M0GXAZJPihXeDK8C8yXXevesfGjycn4pxGUpd3cfhvhaVWyheFiTMqk8L5_DIsIvs")
-                connection.doOutput = true
-
-                connection.outputStream.use { os ->
-                    os.write(jsonPayload.toByteArray())
-                    os.flush()
-                }
-
-                val responseCode = connection.responseCode
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.d("ChatRepository", "Уведомление успешно отправлено")
-                } else {
-                    Log.e("ChatRepository", "Ошибка отправки уведомления: Код $responseCode")
-                }
-            } catch (e: Exception) {
-                Log.e("ChatRepository", "Ошибка при отправке уведомления: ${e.message}")
-            }
-        }
-    }*/
+    }
 }

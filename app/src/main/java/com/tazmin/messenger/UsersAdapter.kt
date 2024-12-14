@@ -39,6 +39,7 @@ class UsersAdapter(
             } else {
                 avatarImageView.setImageResource(R.drawable.ic_userpic)
             }
+
         }
     }
 

@@ -1,9 +1,14 @@
 package com.tazmin.messenger
 
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.graphics.Matrix
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
-import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
@@ -11,13 +16,19 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.*
+import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import kotlin.math.min
 
 class ChatActivity : AppCompatActivity() {
 
@@ -78,9 +89,11 @@ class ChatActivity : AppCompatActivity() {
                 Toast.makeText(this, "Сообщение не должно быть пустым", Toast.LENGTH_SHORT).show()
             }
         }
-
+        val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { sendMessageWithFile(it) }
+        }
         findViewById<ImageButton>(R.id.attachFileButton).setOnClickListener {
-            pickFile()
+            imagePickerLauncher.launch("image/*")
         }
 
         findViewById<ImageButton>(R.id.backButton).setOnClickListener{
@@ -93,7 +106,6 @@ class ChatActivity : AppCompatActivity() {
         val chatId = getChatId(currentUserId, chatUserId)
         markMessagesAsRead(chatId, currentUserId)
         clearNewMessageFlag(currentUserId)
-
     }
     private fun clearNewMessageFlag(senderId: String) {
         val db = FirebaseFirestore.getInstance()
@@ -135,47 +147,23 @@ class ChatActivity : AppCompatActivity() {
             }
     }
 
-    private fun pickFile() {
-        pickFileLauncher.launch("*/*")
-    }
-    private val pickFileLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            uploadFileToFirebase(it)
+    private fun sendMessageWithFile(imageUri: Uri) {
+        lifecycleScope.launch {
+            val imageUrl = chatRepository.uploadImageToImgur(imageUri, this@ChatActivity)
+            if (imageUrl != null) {
+                val message = Message(
+                    senderId = currentUserId,
+                    receiverId = chatUserId,
+                    message = null,
+                    fileUrl = imageUrl,
+                    timestamp = System.currentTimeMillis()
+                )
+                viewModel.sendMessage(getChatId(currentUserId, chatUserId), message)
+            } else {
+                Toast.makeText(this@ChatActivity, "Failed to upload image", Toast.LENGTH_SHORT).show()
+            }
         }
     }
-    private fun uploadFileToFirebase(fileUri: Uri) {
-        val storageRef = FirebaseStorage.getInstance().reference
-        val fileName = fileUri.lastPathSegment ?: "unknown_file"
-        val fileRef = storageRef.child("chat_files/${System.currentTimeMillis()}_$fileName")
-
-        fileRef.putFile(fileUri)
-            .addOnProgressListener { taskSnapshot ->
-                val progress = (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount)
-                Log.d("UploadProgress", "Загружено: $progress%")
-            }
-            .addOnSuccessListener {
-                fileRef.downloadUrl.addOnSuccessListener { uri ->
-                    sendMessageWithFile(uri.toString())
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Ошибка загрузки файла: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun sendMessageWithFile(fileUrl: String) {
-        val message = Message(
-            senderId = currentUserId,
-            receiverId = chatUserId,
-            message = null,
-            fileUrl = fileUrl,
-            timestamp = System.currentTimeMillis()
-        )
-        viewModel.sendMessage(getChatId(currentUserId, chatUserId), message)
-    }
-
-
-
     private fun getChatId(user1: String, user2: String): String {
         return if (user1 < user2) "$user1-$user2" else "$user2-$user1"
     }

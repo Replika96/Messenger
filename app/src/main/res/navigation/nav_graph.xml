@@ -7,10 +7,32 @@
     <fragment
         android:id="@+id/usersFragment"
         android:name="com.tazmin.messenger.UsersFragment"
-        android:label="Сообщения" />
+        android:label="Сообщения">
+        <action
+            android:id="@+id/action_usersFragment_to_generalChatFragment"
+            app:destination="@id/generalChatFragment" />
+        <action
+            android:id="@+id/action_usersFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/generalChatFragment"
+        android:name="com.tazmin.messenger.GeneralChatFragment"
+        android:label="Общий чат">
+        <action
+            android:id="@+id/action_generalChatFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.tazmin.messenger.ProfileFragment"
-        android:label="Профиль" />
+        android:label="Профиль">
+        <action
+            android:id="@+id/action_profileFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+    </fragment>
+
 </navigation>
+

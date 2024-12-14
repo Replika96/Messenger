@@ -22,11 +22,12 @@ import android.graphics.Matrix
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
+import android.widget.EditText
+import android.widget.ImageButton
 import androidx.lifecycle.lifecycleScope
 import okhttp3.*
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
-import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
@@ -39,6 +40,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private lateinit var usernameText: TextView
     private lateinit var logoutButton: Button
     private lateinit var avatarImageView: ImageView
+    private lateinit var editUsernameField: EditText
+    private lateinit var saveUsernameButton: Button
+    private lateinit var editUsernameButton: ImageButton
 
     private val activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -61,6 +65,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         usernameText = view.findViewById(R.id.usernameText)
         avatarImageView = view.findViewById((R.id.avatarImageView))
         logoutButton = view.findViewById(R.id.logoutButton)
+        editUsernameField = view.findViewById(R.id.editUsernameField)
+        saveUsernameButton = view.findViewById(R.id.saveUsernameButton)
+        editUsernameButton = view.findViewById(R.id.editUsername)
 
         // Загружаем информацию о пользователе
         loadUserInfo()
@@ -68,7 +75,19 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         avatarImageView.setOnClickListener {
             openGallery()
         }
-
+        editUsernameButton.setOnClickListener {
+            editUsernameField.visibility = View.VISIBLE
+            saveUsernameButton.visibility = View.VISIBLE
+            editUsernameField.setText(usernameText.text)
+            usernameText.visibility = View.GONE
+            editUsernameButton.visibility = View.GONE
+        }
+        saveUsernameButton.setOnClickListener {
+            val newUsername = editUsernameField.text.toString()
+            if (newUsername.isNotEmpty()) {
+                updateUsername(newUsername)
+            }
+        }
         logoutButton.setOnClickListener {
             auth.signOut()
             val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -76,7 +95,23 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             requireActivity().finish()
         }
     }
-
+    private fun updateUsername(newUsername: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            db.collection("users").document(userId)
+                .update("username", newUsername)
+                .addOnSuccessListener {
+                    usernameText.text = newUsername
+                    usernameText.visibility = View.VISIBLE
+                    saveUsernameButton.visibility = View.GONE
+                    editUsernameField.visibility = View.GONE
+                    editUsernameButton.visibility = View.VISIBLE
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(requireContext(), "Ошибка при сохранении имени: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
     private fun loadUserInfo() {
         val currentUser = auth.currentUser
         currentUser?.let { user ->
@@ -109,7 +144,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private suspend fun uploadAvatarToImgur(imageUri: Uri) {
-        // Показываем индикатор загрузки
+
         val progressDialog = ProgressDialog(requireContext()).apply {
             setMessage("Uploading avatar...")
             setCancelable(false)

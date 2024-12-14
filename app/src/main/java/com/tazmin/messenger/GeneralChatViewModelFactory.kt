@@ -3,12 +3,13 @@ package com.tazmin.messenger
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class ChatViewModelFactory(
+class GeneralChatViewModelFactory(
     private val chatRepository: ChatRepository
 ) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ChatViewModel::class.java)) {
-            return ChatViewModel(chatRepository) as T
+        if (modelClass.isAssignableFrom(GeneralChatViewModel::class.java)) {
+            return GeneralChatViewModel(chatRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
